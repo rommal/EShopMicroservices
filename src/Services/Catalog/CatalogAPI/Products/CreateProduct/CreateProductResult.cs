@@ -1,6 +1,4 @@
 ﻿namespace CatalogAPI.Products.CreateProduct
 {
-    public class CreateProductHandler
-    {
-    }
+    public record CreateProductResult(Guid Id);
 }
