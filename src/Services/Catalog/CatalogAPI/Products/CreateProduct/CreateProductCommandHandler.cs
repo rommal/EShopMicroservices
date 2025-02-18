@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using BuildingBlocks.CQRS;
 
 namespace CatalogAPI.Products.CreateProduct
 {
-    internal class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, CreateProductResult>
+    internal class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
