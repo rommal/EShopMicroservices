@@ -13,7 +13,7 @@
                 return Results.Ok(response);
             })
                 .WithName("GetProductsByCategory")
-                .Produces<GetProductsByCategoryResponse>(StatusCodes.Status201Created)
+                .Produces<GetProductsByCategoryResponse>(StatusCodes.Status200OK)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
                 .WithSummary("Get Products By Category")
                 .WithDescription("Get Products By Category"); ;
