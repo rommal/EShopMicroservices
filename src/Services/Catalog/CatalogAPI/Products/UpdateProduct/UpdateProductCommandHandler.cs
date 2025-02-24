@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Xml.Linq;
-
-namespace CatalogAPI.Products.UpdateProduct
+﻿namespace CatalogAPI.Products.UpdateProduct
 {
    internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductCommandHandler> logger)
         : ICommandHandler<UpdateProductCommand, UpdateProductResult>
