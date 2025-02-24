@@ -12,11 +12,11 @@
 
                     return Results.Ok(response);
                 })
-                .WithName("GetProduct")
+                .WithName("GetProducts")
                 .Produces<GetProductsResponse>(StatusCodes.Status201Created)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
-                .WithSummary("Get Product")
-                .WithDescription("Get Product"); ;
+                .WithSummary("Get Products")
+                .WithDescription("Get Products"); ;
         }
     }
 }
