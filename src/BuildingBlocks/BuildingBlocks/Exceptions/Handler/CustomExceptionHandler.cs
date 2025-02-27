@@ -10,6 +10,8 @@ namespace BuildingBlocks.Exceptions.Handler
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
+            logger.LogError("Error message: {exceptionMessage}, Time of occurrence {time}", exception.Message, DateTime.Now);
+
             (string Details, string Title, int StatusCode) details = exception switch
             {
                 InternalServerException =>
@@ -17,13 +19,7 @@ namespace BuildingBlocks.Exceptions.Handler
                     exception.Message,
                     exception.GetType().Name,
                     httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError
-                ),
-                ValidationException =>
-                (
-                    exception.Message,
-                    exception.GetType().Name,
-                    httpContext.Response.StatusCode = StatusCodes.Status400BadRequest
-                ),
+                ),                
                 BadRequestException =>
                 (
                     exception.Message,
@@ -35,6 +31,12 @@ namespace BuildingBlocks.Exceptions.Handler
                     exception.Message,
                     exception.GetType().Name,
                     httpContext.Response.StatusCode = StatusCodes.Status404NotFound
+                ),
+                ValidationException =>
+                (
+                    exception.Message,
+                    exception.GetType().Name,
+                    httpContext.Response.StatusCode = StatusCodes.Status400BadRequest
                 ),
                 _ =>
                 (

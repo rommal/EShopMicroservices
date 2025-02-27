@@ -1,8 +1,3 @@
-using BuildingBlocks.Behaviors;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMediatR(config =>
@@ -23,35 +18,12 @@ builder.Services.AddMarten(ops =>
 
 }).UseLightweightSessions();
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 app.MapCarter();
 
-app.UseExceptionHandler(exceptionHandlerApp =>
-{
-    exceptionHandlerApp.Run(async context =>
-    {
-        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-
-        if (exception == null)
-        {
-            return;
-        }
-
-        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-        logger.LogError(exception, exception.Message);
-
-        ProblemDetails problemDetails = new ProblemDetails
-        {
-            Title = exception.Message,            
-            Detail = exception.StackTrace
-        };
-
-        problemDetails.Status = context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        context.Response.ContentType = "application/problem+json";
-
-        await context.Response.WriteAsJsonAsync(problemDetails);
-    });
-});
+app.UseExceptionHandler(options => { });
 
 app.Run();
