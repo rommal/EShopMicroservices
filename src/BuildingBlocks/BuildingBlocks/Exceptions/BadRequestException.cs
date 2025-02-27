@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace BuildingBlocks.Exceptions
 {
-    public class BasRequestException : ApplicationException
+    public class BadRequestException : ApplicationException
     {
-        public BasRequestException(string message) : base(message)
+        public BadRequestException(string message) : base(message)
         {
 
         }
 
-        public BasRequestException(string message, string details) : base(message)
+        public BadRequestException(string message, string details) : base(message)
         {
             Details = details;
         }
