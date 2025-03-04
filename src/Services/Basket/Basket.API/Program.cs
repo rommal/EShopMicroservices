@@ -23,14 +23,10 @@ builder.Services.AddMarten(ops =>
 })
     .UseLightweightSessions();
 
-//if (builder.Environment.IsDevelopment())
-//    builder.Services.InitializeMartenWith<CatalogInititialData>();
+builder.Services.AddHealthChecks()
+    .AddNpgSql(connectionString);
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
-
-//builder.Services.AddHealthChecks()
-//    .AddNpgSql(connectionString);
-
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
 var app = builder.Build();
@@ -39,9 +35,9 @@ app.MapCarter();
 
 app.UseExceptionHandler(options => { });
 
-//app.UseHealthChecks("/health", new HealthCheckOptions
-//{
-//    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-//});
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();
