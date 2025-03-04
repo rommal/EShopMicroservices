@@ -16,11 +16,12 @@ builder.Services.AddCarter();
 
 string connectionString = builder.Configuration.GetConnectionString("Database") ?? string.Empty;
 
-//builder.Services.AddMarten(ops =>
-//{
-//    ops.Connection(connectionString);
-
-//}).UseLightweightSessions();
+builder.Services.AddMarten(ops =>
+{
+    ops.Connection(connectionString);
+    ops.Schema.For<ShoppingCart>().Identity(x => x.UserName);
+})
+    .UseLightweightSessions();
 
 //if (builder.Environment.IsDevelopment())
 //    builder.Services.InitializeMartenWith<CatalogInititialData>();
