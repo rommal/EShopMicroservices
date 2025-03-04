@@ -31,6 +31,8 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 //builder.Services.AddHealthChecks()
 //    .AddNpgSql(connectionString);
 
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+
 var app = builder.Build();
 
 app.MapCarter();
