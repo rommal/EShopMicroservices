@@ -6,3 +6,6 @@ global using Basket.API.Models;
 global using FluentValidation;
 global using BuildingBlocks.Behaviors;
 global using BuildingBlocks.Exceptions.Handler;
+global using Basket.API.Exceptions;
+global using Marten;
+global using BuildingBlocks.Exceptions;
