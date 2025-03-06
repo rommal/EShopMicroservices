@@ -14,24 +14,26 @@ builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddCarter();
 
-string connectionString = builder.Configuration.GetConnectionString("Database") ?? string.Empty;
+string connectionStringDB = builder.Configuration.GetConnectionString("Database") ?? string.Empty;
+string connectionStringRedis = builder.Configuration.GetConnectionString("Redis") ?? string.Empty;
 
 builder.Services.AddMarten(ops =>
 {
-    ops.Connection(connectionString);
+    ops.Connection(connectionStringDB);
     ops.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 })
     .UseLightweightSessions();
 
 builder.Services.AddHealthChecks()
-    .AddNpgSql(connectionString);
+    .AddNpgSql(connectionStringDB)
+    .AddRedis(connectionStringRedis);
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.Configuration = connectionStringRedis;
 });
 
 var app = builder.Build();
