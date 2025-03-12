@@ -1,3 +1,4 @@
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -24,17 +25,23 @@ builder.Services.AddMarten(ops =>
 })
     .UseLightweightSessions();
 
-builder.Services.AddHealthChecks()
-    .AddNpgSql(connectionStringDB)
-    .AddRedis(connectionStringRedis);
-
-builder.Services.AddExceptionHandler<CustomExceptionHandler>();
-builder.Services.AddScoped<IBasketRepository, BasketRepository>();
-builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = connectionStringRedis;
 });
+
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
+
+builder.Services.AddHealthChecks()
+    .AddNpgSql(connectionStringDB)
+    .AddRedis(connectionStringRedis);
 
 var app = builder.Build();
 
