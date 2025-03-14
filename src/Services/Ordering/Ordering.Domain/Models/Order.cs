@@ -16,5 +16,7 @@
             get => OrderItems.Sum(x => x.Price * x.Quantity);
             private set { }
         }
+
+        
     }
 }
