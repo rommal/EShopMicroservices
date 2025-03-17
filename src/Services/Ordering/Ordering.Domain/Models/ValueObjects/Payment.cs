@@ -1,5 +1,8 @@
-﻿namespace Ordering.Domain.Models.ValueObjects
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Ordering.Domain.Models.ValueObjects
 {
+    [ComplexType]
     public record Payment
     {
         private const int CVVLength = 3;

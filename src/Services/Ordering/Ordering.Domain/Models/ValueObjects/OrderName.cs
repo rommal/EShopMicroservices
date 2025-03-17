@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ordering.Domain.Models.ValueObjects
 {
+    [ComplexType]
     public record OrderName
     {
         private const int DefaultLength = 1;
