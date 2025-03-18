@@ -11,10 +11,10 @@ namespace Ordering.Infrastructure.Data.Interceptors
             return base.SavingChanges(eventData, result);
         }
 
-        public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
+        public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
         {
             UpdateEntities(eventData.Context);
-            return base.SavingChangesAsync(eventData, result, cancellationToken);
+            return await base.SavingChangesAsync(eventData, result, cancellationToken);
         }
 
         private void UpdateEntities(DbContext? context)
@@ -25,11 +25,11 @@ namespace Ordering.Infrastructure.Data.Interceptors
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedBy = "romanm";
-                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.LastModifiedBy = entry.Entity.CreatedBy = "romanm";
+                    entry.Entity.LastModified = entry.Entity.CreatedAt = DateTime.UtcNow;
                 }
                 
-                if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntites())
+                if (entry.State == EntityState.Modified || entry.HasChangedOwnedEntites())
                 {
                     entry.Entity.LastModifiedBy = "anotheruser";
                     entry.Entity.LastModified = DateTime.UtcNow;
