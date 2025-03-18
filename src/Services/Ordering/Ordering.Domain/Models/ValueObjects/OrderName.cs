@@ -10,7 +10,7 @@ namespace Ordering.Domain.Models.ValueObjects
     [ComplexType]
     public record OrderName
     {
-        private const int DefaultLength = 1;
+        private const int DefaultLength = 5;
         private OrderName(string value) => Value = value;
 
         public string Value { get; }

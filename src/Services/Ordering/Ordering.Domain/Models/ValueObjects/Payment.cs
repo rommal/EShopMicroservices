@@ -33,7 +33,7 @@ namespace Ordering.Domain.Models.ValueObjects
             ArgumentException.ThrowIfNullOrWhiteSpace(cardNumber, nameof(cardNumber));
             ArgumentException.ThrowIfNullOrWhiteSpace(expiration, nameof(expiration));
             ArgumentException.ThrowIfNullOrWhiteSpace(cvv, nameof(cvv));
-            ArgumentOutOfRangeException.ThrowIfNotEqual(cvv, nameof(cvv));
+            ArgumentOutOfRangeException.ThrowIfNotEqual(cvv.Length, CVVLength);
 
             return new Payment(cardName, cardNumber, expiration, cvv, paymentMethod);
         }
