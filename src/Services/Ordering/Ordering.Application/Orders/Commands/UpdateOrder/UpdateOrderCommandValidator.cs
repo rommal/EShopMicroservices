@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ordering.Application.Orders.Commands.UpdateOrder
 {
-    public class UpdateOrderCommandValidator: AbstractValidator<CreateOrderCommand>
+    public class UpdateOrderCommandValidator: AbstractValidator<UpdateOrderCommand>
     {
         public UpdateOrderCommandValidator()
         {

@@ -12,7 +12,7 @@ namespace Ordering.Application.Orders.Commands.UpdateOrder
 
             if (order == null) 
             {
-                throw new OrderNotFoundException(orderDto.Id);
+                throw new OrderNotFoundException(orderId.Value);
             }
 
             UpdateOrder(orderDto, order);
