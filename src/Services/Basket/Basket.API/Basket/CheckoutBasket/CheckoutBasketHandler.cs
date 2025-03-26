@@ -21,7 +21,7 @@ namespace Basket.API.Basket.CheckoutBasket
             var eventmessage = command.BasketCheckout.Adapt<BasketCheckoutEvent>();
             eventmessage.TotalPrice = basket.TotalPrice;
 
-            await publishEndpoint.Publish(eventmessage, cancellationToken);
+            await publishEndpoint.Publish(eventmessage, sendContext => sendContext.CorrelationId = Guid.NewGuid(), cancellationToken);
 
             await repository.DeleteBasket(command.BasketCheckout.UserName, cancellationToken);
 

@@ -1,12 +1,16 @@
-﻿namespace Ordering.Application.Orders.EventHandlers.Domain
-{
-    public class OrderCreatedEventHandler(ILogger<OrderCreatedEventHandler> logger) : INotificationHandler<OrderCreatedEvent>
-    {
-        public async Task Handle(OrderCreatedEvent notification, CancellationToken cancellationToken)
-        {
-            logger.LogInformation("Domain Event handled: {DomainEvent}", notification.GetType().Name);
+﻿using MassTransit;
 
-            await Task.CompletedTask;
+namespace Ordering.Application.Orders.EventHandlers.Domain
+{
+    public class OrderCreatedEventHandler(IPublishEndpoint publishEndpoint, ILogger<OrderCreatedEventHandler> logger) : INotificationHandler<OrderCreatedEvent>
+    {
+        public async Task Handle(OrderCreatedEvent domainEvent, CancellationToken cancellationToken)
+        {
+            logger.LogInformation("Domain Event handled: {DomainEvent}", domainEvent.GetType().Name);
+
+            var orderCreatedIntegrationEvent = domainEvent.Order.ToOrderDto();
+
+            await publishEndpoint.Publish(orderCreatedIntegrationEvent, context => context.CorrelationId = orderCreatedIntegrationEvent.Id, cancellationToken);
         }
     }
 }
