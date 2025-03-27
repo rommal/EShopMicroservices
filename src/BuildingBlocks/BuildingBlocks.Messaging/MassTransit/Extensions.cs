@@ -18,11 +18,13 @@ namespace BuildingBlocks.Messaging.MassTransit
 
                 config.UsingRabbitMq((context, configurator) =>
                 {
-                    configurator.Host(new Uri(configuration["MessageBroker:Host"]!), host =>
+                    string address = configuration["MessageBroker:Host"]!;                   
+
+                    configurator.Host(address, host =>
                     {
                         host.Username(configuration["MessageBroker:UserName"]!);
                         host.Password(configuration["MessageBroker:Password"]!);
-                    });
+                    });                    
 
                     configurator.ConfigureEndpoints(context);
                 });
