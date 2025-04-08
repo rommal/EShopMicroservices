@@ -5,10 +5,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+var gatewayAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
 builder.Services.AddRefitClient<ICatalogService>()
     .ConfigureHttpClient(c =>
     {
-        c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
+        c.BaseAddress = gatewayAddress;
+    });
+
+builder.Services.AddRefitClient<IBasketService>()
+    .ConfigureHttpClient(c =>
+    {
+        c.BaseAddress = gatewayAddress;
     });
 
 var app = builder.Build();
