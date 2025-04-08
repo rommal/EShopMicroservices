@@ -5,7 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+Console.WriteLine(builder.Configuration["ApiSettings:GatewayAddress"]);
 var gatewayAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
+
 builder.Services.AddRefitClient<ICatalogService>()
     .ConfigureHttpClient(c =>
     {
